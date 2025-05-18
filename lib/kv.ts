@@ -160,25 +160,25 @@ function createSampleData(): TeamMember[] {
     {
       id: "5",
       name: "Maria",
-      avatar: "/assets/team/maria.png",
+      avatar: "/assets/team/maria.webp",
       attendance: {},
     },
     {
       id: "6",
       name: "Sini",
-      avatar: "/assets/team/sini.png",
+      avatar: "/assets/team/sini.webp",
       attendance: {},
     },
     {
       id: "7",
       name: "Phuong",
-      avatar: "/assets/team/phoung.png",
+      avatar: "/assets/team/phoung.webp",
       attendance: {},
     },
     {
       id: "8",
       name: "David",
-      avatar: "/assets/team/david.png",
+      avatar: "/assets/team/david.webp",
       attendance: {},
     },
     {

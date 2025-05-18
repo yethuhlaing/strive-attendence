@@ -3,6 +3,7 @@ import { getAttendanceData } from "@/app/actions"
 import type { Metadata } from "next"
 import Image from "next/image"
 import { ModeToggle } from "@/components/ui/mode-toggle"
+import LogoHeader from "@/components/logo-header"
 
 export const metadata: Metadata = {
   title: "Office Attendance Tracker",
@@ -18,7 +19,7 @@ export default async function Home() {
         {/* Background blurred team image */}
         <div className="absolute inset-0 overflow-hidden">
           <Image
-            src="/assets/team/team-background.png"
+            src="/assets/team/team-background.webp"
             // Replace with your actual team image path
             fill
             alt="Team Background"
@@ -28,25 +29,7 @@ export default async function Home() {
         </div>
 
         {/* Content with logo */}
-        <div className="relative z-10 flex items-center justify-center gap-3">
-          {/* Light mode image */}
-          <Image
-            src="/assets/logo-light.png"
-            width={350}
-            height={350}
-            alt="Logo Light"
-            className="block dark:hidden"
-          />
-
-          {/* Dark mode image */}
-          <Image
-            src="/assets/logo-dark.png"
-            width={350}
-            height={350}
-            alt="Logo Dark"
-            className="hidden dark:block"
-          />
-        </div>
+        <LogoHeader />
       </div>
       <AttendanceTracker initialTeamMembers={teamMembers} />
       <div className="fixed bottom-4 right-4 z-50">
