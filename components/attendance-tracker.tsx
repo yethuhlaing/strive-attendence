@@ -17,8 +17,7 @@ interface AttendanceTrackerProps {
 export default function AttendanceTracker({
   initialTeamMembers,
 }: AttendanceTrackerProps) {
-  const [teamMembers, setTeamMembers] =
-    useState<TeamMember[]>(initialTeamMembers);
+  const [teamMembers, setTeamMembers] = useState<TeamMember[]>(initialTeamMembers);
   const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null);
 
   // Add week selection state
@@ -42,6 +41,10 @@ export default function AttendanceTracker({
     setCopySourceWeekId(getCurrentWeekId());
   }, []);
 
+  useEffect(() => {
+    // This ensures data is refreshed when initialTeamMembers changes
+    setTeamMembers(initialTeamMembers);
+  }, [initialTeamMembers]);
   const handleToggleDay = async (
     day: string,
     status: "office" | "remote",
