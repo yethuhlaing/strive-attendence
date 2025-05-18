@@ -11,7 +11,6 @@ export async function initializeDatabase(): Promise<void> {
 
   if (!exists) {
     const sampleData = createSampleData()
-    console.log()
     await kv.set(TEAM_MEMBERS_KEY, JSON.stringify(sampleData))
   }
 }

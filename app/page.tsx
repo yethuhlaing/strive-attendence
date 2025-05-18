@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 export default async function Home() {
   const teamMembers = await getAttendanceData()
-
+  console.log("team member", teamMembers)
   return (
     <main className="container mx-auto px-4 py-8">
       <div className="relative w-full flex items-center justify-center py-20">
