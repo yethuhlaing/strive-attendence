@@ -16,7 +16,7 @@ export async function initializeDatabase(): Promise<void> {
 }
 
 // Get all team members
-export async function getAllTeamMembers(): Promise<TeamMember[]> {
+export async function getAllTeamMembers(options: { cacheBuster?: number } = {}): Promise<TeamMember[]> {
   await initializeDatabase();
 
   const data = await kv.get<string>(TEAM_MEMBERS_KEY);

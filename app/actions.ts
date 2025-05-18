@@ -8,9 +8,11 @@ import {
 } from "@/lib/kv";
 // Get attendance data - Server Action
 export async function getAttendanceData(): Promise<TeamMember[]> {
-  return getAllTeamMembers()
+  // Add a cache-busting parameter using the current timestamp
+  // This ensures we always get fresh data from the database
+  const timestamp = Date.now();
+  return getAllTeamMembers({ cacheBuster: timestamp });
 }
-
 // Update attendance for a team member
 
 

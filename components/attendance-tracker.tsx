@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { deleteScheduleDay, updateAttendance } from "@/app/actions";
+import { deleteScheduleDay, getAttendanceData, updateAttendance } from "@/app/actions";
 import TeamMemberSelector from "./team-member-selector";
 import UserSchedule from "./user-schedule";
 import WeekSelector from "./week-selector";
@@ -17,7 +17,8 @@ interface AttendanceTrackerProps {
 export default function AttendanceTracker({
   initialTeamMembers,
 }: AttendanceTrackerProps) {
-  const [teamMembers, setTeamMembers] = useState<TeamMember[]>(initialTeamMembers);
+  const [teamMembers, setTeamMembers] =
+    useState<TeamMember[]>(initialTeamMembers);
   const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null);
 
   // Add week selection state
@@ -39,12 +40,35 @@ export default function AttendanceTracker({
 
     // Set initial copy source week to current week
     setCopySourceWeekId(getCurrentWeekId());
+    setTeamMembers(initialTeamMembers);
   }, []);
 
   useEffect(() => {
-    // This ensures data is refreshed when initialTeamMembers changes
-    setTeamMembers(initialTeamMembers);
-  }, [initialTeamMembers]);
+    const refreshData = async () => {
+      try {
+        // Fetch fresh data from the server on each page load
+        const freshData = await getAttendanceData();
+        setTeamMembers(freshData);
+
+        // If a member was previously selected, update that selection with fresh data
+        if (selectedMember) {
+          const updatedMember = freshData.find(
+            (m) => m.id === selectedMember.id
+          );
+          if (updatedMember) {
+            setSelectedMember(updatedMember);
+          }
+        }
+      } catch (error) {
+        console.error("Error refreshing attendance data:", error);
+      }
+    };
+
+    // Refresh data when component mounts and when weekId changes
+    refreshData();
+  }, [selectedWeekId]); // Also refresh when week changes
+  
+
   const handleToggleDay = async (
     day: string,
     status: "office" | "remote",
@@ -77,7 +101,9 @@ export default function AttendanceTracker({
       setSelectedMember((prevMember) => {
         if (!prevMember) return null;
         // Find the updated member in the new array
-        const updatedMember = updatedMembers.find((m) => m.id === prevMember.id);
+        const updatedMember = updatedMembers.find(
+          (m) => m.id === prevMember.id
+        );
         // Return a deep copy to ensure no reference issues
         return updatedMember
           ? JSON.parse(JSON.stringify(updatedMember))
@@ -125,7 +151,7 @@ export default function AttendanceTracker({
         setIsUpdating(false);
       }
     }
-  }; 
+  };
   // Copy schedule from one week to another
   const handleCopySchedule = async () => {
     if (!selectedMember || !copySourceWeekId || isUpdating) return;
