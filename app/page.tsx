@@ -6,7 +6,7 @@ import { ModeToggle } from "@/components/ui/mode-toggle"
 import LogoHeader from "@/components/logo-header"
 
 export const metadata: Metadata = {
-  title: "Office Attendance Tracker",
+  title: "Strive Attendence",
   description: "Track who is coming to the office each day",
 }
 
